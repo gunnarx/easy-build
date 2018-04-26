@@ -43,6 +43,9 @@ FROM gocd/gocd-agent-ubuntu-16.04:v18.3.0
 
 MAINTAINER Gianpaolo Macario <gianpaolo_macario@mentor.com>
 
+# Temporary locale - avoids complaint from apt-get
+ENV LC_ALL "C"
+
 # Make sure the package repository is up to date
 RUN apt-get update && apt-get -y dist-upgrade
 
@@ -70,12 +73,7 @@ RUN add-apt-repository -y ppa:openjdk-r/ppa && \
 RUN mkdir -p /var/run/sshd
 
 # Create non-root user that will perform the build of the images
-RUN id build >/dev/null || useradd --create-home --shell /bin/bash build
-
-#RUN mkdir -p /home/build/shared
-#COPY configure_build.sh /home/build/
-#RUN chown -R build.build /home/build
-#RUN cd /home/build
+RUN id build 2>/dev/null || useradd --create-home --shell /bin/bash build
 
 RUN mkdir -p /usr/local/bin
 COPY clone-and-build-gdp.sh /usr/local/bin/
@@ -84,6 +82,10 @@ RUN dos2unix /usr/local/bin/*.sh && chmod 755 /usr/local/bin/*.sh
 
 # Fix error: Please use a locale setting which supports utf-8
 # See https://github.com/gmacario/easy-build/pull/260
+# Also: https://askubuntu.com/questions/454260/how-to-solve-locale-problem
+# The image needs the generation tools and the locale can then be created
+RUN apt-get -y install locales
+RUN locale-gen en_US.UTF-8
 ENV LC_ALL en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US.UTF-8
