@@ -39,7 +39,7 @@
 # $ docker run -d test/build-yocto-genivi TODO
 # ===========================================================================================
 
-FROM gocd/gocd-agent-ubuntu-14.04:v17.8.0
+FROM gocd/gocd-agent-ubuntu-16.04:v18.3.0
 
 MAINTAINER Gianpaolo Macario <gianpaolo_macario@mentor.com>
 
