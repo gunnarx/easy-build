@@ -13,11 +13,11 @@ MACHINE=qemux86-64
 WORKDIR=genivi-dev-platform
 [ "$GDP_SHA" != "" ] && WORKDIR=$WORKDIR-$GDP_SHA
 
-git config --global user.name "easy-build"
-git config --global user.email "$(whoami)@$(hostname)"
-
 if [ ! -e $WORKDIR ]; then git clone -b $GDP_BRANCH $GDP_URL $WORKDIR; fi
 cd $WORKDIR && git fetch --all --prune
+git config user.name "easy-build"
+git config user.email "$(whoami)@$(hostname)"
+
 [ "$GDP_SHA" != "" ] && git checkout $GDP_SHA
 git show
 git status
