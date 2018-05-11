@@ -12,10 +12,10 @@ FORK=gunnarx
 # Set EASYBUILD_INTERACTIVE environment to something to get terminal
 # interaction. Otherwise the container detaches
 if [ -n "$EASYBUILD_INTERACTIVE" ] ; then
-  TERM=-i
+  T=-i
   DETACH=
 else
-  TERM=
+  T=
   DETACH=-d
 fi
 
@@ -32,11 +32,14 @@ fi
 cd easy-build/build-yocto-genivi
 docker build -t easy-build/gdp .
 mkdir "$HOST_WORK_DIR"
-runcmd="docker run $DETACH $TERM --name easy-build-gdp --volume "$HOST_WORK_DIR":/home/build easy-build/gdp clone-and-build-gdp.sh"
+chmod 777 "$HOST_WORK_DIR"
+uid=$(id -u)
+gid=$(id -g)
+runcmd="docker run $DETACH $T -u ${uid}:${gid} --name easy-build-gdp --volume "$HOST_WORK_DIR":/host_workdir easy-build/gdp clone-and-build-gdp.sh"
 echo "+ $runcmd"
 $runcmd
 
-if [ $? -eq 0 -a -z "$DETACH" ] ; then
+if [ $? -eq 0 -a -n "$DETACH" ] ; then
   echo Container started successfully
 else
   echo Container start failed

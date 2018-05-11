@@ -53,7 +53,7 @@ RUN apt-get update && apt-get -y dist-upgrade
 RUN apt-get -y install dos2unix git mc openssh-server screen tig tree
 
 # Install the following utilities (required by poky)
-RUN apt-get -y install curl make gcc g++ diffstat texinfo gawk chrpath wget libsdl1.2-dev cpio
+RUN apt-get -y install curl make gcc g++ diffstat texinfo gawk chrpath wget libsdl1.2-dev cpio iputils-ping
 
 # Install extra packages (required for building GDP)
 RUN apt-get -y install gawk wget git-core diffstat unzip texinfo gcc-multilib \
