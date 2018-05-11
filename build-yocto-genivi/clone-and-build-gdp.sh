@@ -12,10 +12,18 @@ touch foo
 set -x
 set -e
 
-GDP_URL=https://github.com/GENIVI/genivi-dev-platform.git
-GDP_BRANCH=master
-# GDP_SHA=707eddc0f6f76488fb2c566bf998d63ec7e2ae9b
-MACHINE=qemux86-64
+# Set defaults if not not set in environment
+if [ -z "$GDP_URL" ] ; then
+   GDP_URL=https://github.com/GENIVI/genivi-dev-platform.git
+fi
+
+if [ -z "$GDP_BRANCH" ] ; then
+   GDP_BRANCH=master
+fi
+
+if [ -z "$MACHINE" ] ; then
+   MACHINE=qemux86-64
+fi
 
 # Work in bind-mounted dir or inside container?
 if [ -d /host_workdir ] ; then
@@ -28,7 +36,14 @@ fi
 [ "$GDP_SHA" != "" ] && WORKDIR=$WORKDIR-$GDP_SHA
 
 if [ ! -e $WORKDIR ]; then git clone -b $GDP_BRANCH $GDP_URL $WORKDIR; fi
-cd $WORKDIR && git fetch --all --prune
+cd $WORKDIR 
+pwd
+ls -al .
+echo whoami
+whoami
+touch foo
+
+git fetch --all --prune
 git config user.name "easy-build"
 git config user.email "$(whoami)@$(hostname)"
 
