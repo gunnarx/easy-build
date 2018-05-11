@@ -9,7 +9,6 @@ echo whoami
 whoami
 touch foo
 
-set -x
 set -e
 
 # Set defaults if not not set in environment
@@ -52,6 +51,7 @@ git show
 git status
 
 source init.sh ${MACHINE}
+set -x
 bitbake genivi-dev-platform
 
 # EOF

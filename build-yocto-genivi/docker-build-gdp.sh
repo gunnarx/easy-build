@@ -14,8 +14,8 @@ FORK=gunnarx
 
 # Set EASYBUILD_INTERACTIVE environment to something to get terminal
 # interaction. Otherwise the container detaches
-if [ -n "$EASYBUILD_INTERACTIVE" ] ; then
-  T=-ti
+if [ "$EASYBUILD_INTERACTIVE" = "true" ] ; then
+  T=-i
   DETACH=
 else
   T=
